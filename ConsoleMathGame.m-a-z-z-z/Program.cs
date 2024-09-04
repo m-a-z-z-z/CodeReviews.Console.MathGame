@@ -1,19 +1,31 @@
 ﻿using ConsoleMathGame.m_a_z_z_z;
+using ConsoleMathGame.m_a_z_z_z.Model;
 
-//Var declaration
-int menuSelection;
+// vars
+GameEngine gameEngine = new GameEngine();
+string mainMenuSelection;
+string gameMenuSelection = "";
 
-menuSelection = Menu.MainMenu();
+mainMenuSelection = Menu.MainMenu();
 
-if (menuSelection == 1)
+if (mainMenuSelection == "Play Game")
 {
-    // play game option selected
-}
-else if (menuSelection == 2)
+    gameMenuSelection = Menu.GameMenu();
+} 
+else if (mainMenuSelection == "View Highscores")
 {
-    // view highscores option selected
+    // to do
 }
 else
 {
-    // quit game selected
+    // to do
+}
+
+switch (gameMenuSelection)
+{
+    case "Addition":
+        gameEngine.PlayGame('+');
+        break;
+    default:
+        break;
 }
