@@ -1,30 +1,44 @@
 ﻿using ConsoleMathGame.m_a_z_z_z;
 using ConsoleMathGame.m_a_z_z_z.Model;
 
-// vars
+// var declarations
 GameEngine gameEngine = new GameEngine();
-string mainMenuSelection;
-string gameMenuSelection = "";
+string? mainMenuSelection;
+string? gameMenuSelection = null;
 
 mainMenuSelection = Menu.MainMenu();
 
-if (mainMenuSelection == "Play Game")
+switch (mainMenuSelection)
 {
-    gameMenuSelection = Menu.GameMenu();
-} 
-else if (mainMenuSelection == "View Highscores")
-{
-    // to do
-}
-else
-{
-    // to do
+    case "Play Game":
+        gameMenuSelection = Menu.MainMenu();
+        break;
+    case "View Highscores":
+        // TODO
+        //Implement viewing highscores
+        throw new NotImplementedException();
+        break;
+    case "Quit":
+        Environment.Exit(0);
+        break;
+    default:
+        Environment.Exit(1);
+        break;
 }
 
 switch (gameMenuSelection)
 {
     case "Addition":
         gameEngine.PlayGame('+');
+        break;
+    case "Subtraction":
+        gameEngine.PlayGame('-');
+        break;
+    case "Multiplication":
+        gameEngine.PlayGame('*');
+        break;
+    case "Division":
+        gameEngine.PlayGame('/');
         break;
     default:
         break;
