@@ -1,9 +1,10 @@
-﻿using ConsoleMathGame.m_a_z_z_z.Model;
+﻿using System.Diagnostics;
 
 namespace ConsoleMathGame.m_a_z_z_z;
 
 internal class GameEngine
 {
+    public event Action OnReturnRequested;
     internal void PlayGame(char mathOperator)
     {
         Random random = new Random();
@@ -52,6 +53,17 @@ internal class GameEngine
 
         //TODO
         //Increment score after while loop
+        Console.WriteLine("Press any key to continue.\nR - Return to main menu.");
+        var continueOrReturnInput = Console.ReadLine();
+
+        if (continueOrReturnInput.Trim().ToUpper() == "R")
+        {
+            Console.Clear();
+            OnReturnRequested?.Invoke();    // Trigger the main program again, which triggers StartProgram().
+        } else
+        {
+            PlayGame(mathOperator);
+        }
     }
 
 }

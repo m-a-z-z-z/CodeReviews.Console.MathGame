@@ -3,43 +3,51 @@ using ConsoleMathGame.m_a_z_z_z.Model;
 
 // var declarations
 GameEngine gameEngine = new GameEngine();
-string? mainMenuSelection;
-string? gameMenuSelection = null;
+gameEngine.OnReturnRequested += () => StartProgram();   // I cant lie, chat GPT showed me the wizardry on this line
 
-mainMenuSelection = Menu.MainMenu();
-
-switch (mainMenuSelection)
+void StartProgram()
 {
-    case "Play Game":
-        gameMenuSelection = Menu.MainMenu();
-        break;
-    case "View Highscores":
-        // TODO
-        //Implement viewing highscores
-        throw new NotImplementedException();
-        break;
-    case "Quit":
-        Environment.Exit(0);
-        break;
-    default:
-        Environment.Exit(1);
-        break;
+    var mainMenuSelection = Menu.MainMenu();
+    var gameMenuSelection = "";
+
+    switch (mainMenuSelection)
+    {
+        case "Play Game":
+            gameMenuSelection = Menu.GameMenu();
+            break;
+        case "View Highscores":
+            // TODO
+            //Implement viewing highscores
+            throw new NotImplementedException();
+            break;
+        case "Quit":
+            Environment.Exit(0);
+            break;
+        default:
+            Environment.Exit(1);
+            break;
+    }
+
+    switch (gameMenuSelection)
+    {
+        case "Addition":
+            gameEngine.PlayGame('+');
+            break;
+        case "Subtraction":
+            gameEngine.PlayGame('-');
+            break;
+        case "Multiplication":
+            gameEngine.PlayGame('*');
+            break;
+        case "Division":
+            gameEngine.PlayGame('/');
+            break;
+        default:
+            break;
+    }
 }
 
-switch (gameMenuSelection)
-{
-    case "Addition":
-        gameEngine.PlayGame('+');
-        break;
-    case "Subtraction":
-        gameEngine.PlayGame('-');
-        break;
-    case "Multiplication":
-        gameEngine.PlayGame('*');
-        break;
-    case "Division":
-        gameEngine.PlayGame('/');
-        break;
-    default:
-        break;
-}
+StartProgram();
+
+
+

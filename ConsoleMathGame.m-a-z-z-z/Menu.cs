@@ -37,6 +37,7 @@ internal class Menu
 
             Console.WriteLine("\n#####################################");
 
+            
             key = Console.ReadKey(true);  // Read the key input to allow navigation
 
             switch (key.Key)
