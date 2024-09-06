@@ -17,9 +17,7 @@ void StartProgram()
             gameMenuSelection = Menu.GameMenu();
             break;
         case "View Highscores":
-            // TODO
-            //Implement viewing highscores
-            throw new NotImplementedException();
+            Helper.ViewHighScores(Helper.games);
             break;
         case "Quit":
             Environment.Exit(0);

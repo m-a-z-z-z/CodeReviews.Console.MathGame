@@ -63,6 +63,7 @@ internal class GameEngine
 
         if (continueOrReturnInput.Trim().ToUpper() == "R")
         {
+            Helper.SaveGame(game);
             Console.Clear();
             // Go back to Program.cs and trigger StartProgram()
             OnReturnRequested?.Invoke();    // I prefer this to calling on the menu method in here again as it keeps the flow of the program to Main()/top level statement
