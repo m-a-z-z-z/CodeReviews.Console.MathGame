@@ -1,5 +1,6 @@
 ﻿using ConsoleMathGame.m_a_z_z_z;
 using ConsoleMathGame.m_a_z_z_z.Model;
+using System.Security.AccessControl;
 
 // var declarations
 GameEngine gameEngine = new GameEngine();
@@ -31,16 +32,20 @@ void StartProgram()
     switch (gameMenuSelection)
     {
         case "Addition":
-            gameEngine.PlayGame('+');
+            Game additionGame = new Game(GameMode.Addition);
+            gameEngine.PlayGame('+', additionGame);
             break;
         case "Subtraction":
-            gameEngine.PlayGame('-');
+            Game subtractionGame = new Game(GameMode.Subtraction);
+            gameEngine.PlayGame('-', subtractionGame);
             break;
         case "Multiplication":
-            gameEngine.PlayGame('*');
+            Game multiplicationGame = new Game(GameMode.Multiplication);
+            gameEngine.PlayGame('*', multiplicationGame);
             break;
         case "Division":
-            gameEngine.PlayGame('/');
+            Game divisionGame = new Game(GameMode.Division);
+            gameEngine.PlayGame('/', divisionGame);
             break;
         default:
             break;

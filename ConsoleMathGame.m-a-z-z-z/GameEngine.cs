@@ -1,4 +1,5 @@
-﻿using System.Diagnostics;
+﻿using ConsoleMathGame.m_a_z_z_z.Model;
+using System.Diagnostics;
 
 namespace ConsoleMathGame.m_a_z_z_z;
 
@@ -6,7 +7,7 @@ internal class GameEngine
 {
     public event Action OnReturnRequested;
 
-    internal void PlayGame(char mathOperator)
+    internal void PlayGame(char mathOperator, Game game)    // Game is passed in method to keep track of game state as the PlayGame method calls on itself if user chooses to continue playing
     {
         Console.CursorVisible = true;   // make console cursor visible again now that we're not in menu and taking input
         Random random = new Random();
@@ -41,7 +42,8 @@ internal class GameEngine
         Console.Write($"{firstNum} {mathOperator} {secondNum} = ? ");
         userAnswer = Console.ReadLine();
 
-        userAnswer = Helper.ValidateNumber(userAnswer);  // ensure number was entered
+        // ensure number was entered
+        userAnswer = Helper.ValidateNumber(userAnswer);
 
         // Prompt question again if users answer is incorrect
         while (int.Parse(userAnswer) != correctAnswer)
@@ -50,12 +52,10 @@ internal class GameEngine
             Console.Write($"{firstNum} {mathOperator} {secondNum} = ? ");
             userAnswer = Console.ReadLine();
             userAnswer = Helper.ValidateNumber(userAnswer);
-        }
-
-        Console.WriteLine("\nCorrect!");
-
-        //TODO
-        //Increment score after while loop
+        }        
+        
+        game.Score++;
+        Console.WriteLine($"\nCorrect!\t Score: {game.Score}");
 
         // Prompt user to continue or return to menu
         Console.WriteLine("Press any key to continue.\nR - Return to main menu.");
@@ -64,11 +64,12 @@ internal class GameEngine
         if (continueOrReturnInput.Trim().ToUpper() == "R")
         {
             Console.Clear();
-            OnReturnRequested?.Invoke();    // Trigger the main program again, which triggers StartProgram().
+            // Go back to Program.cs and trigger StartProgram()
+            OnReturnRequested?.Invoke();    // I prefer this to calling on the menu method in here again as it keeps the flow of the program to Main()/top level statement
         } else
         {
             Console.Clear();
-            PlayGame(mathOperator);
+            PlayGame(mathOperator, game);   // game is passed in and game state is preserved, keeping track of score and game mode selected
         }
     }
 
