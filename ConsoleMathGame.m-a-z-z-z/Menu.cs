@@ -30,15 +30,15 @@ internal class Menu
             Console.SetCursorPosition(left, top);  // Move the cursor back to the starting point to prevent redrawing
             Console.WriteLine("#####################################\n\n" + $"\t{title}\n");
 
+            // Loop through options array to print values for the menu and highlight the current option that will be selected if user presses enter
             for (int i = 0; i < options.Length; i++)
             {
                 Console.WriteLine($"\t{(highlightedOption == i + 1 ? optionHighlight : "")}{options[i]}\u001b[0m");
             }
 
             Console.WriteLine("\n#####################################");
-
-            
-            key = Console.ReadKey(true);  // Read the key input to allow navigation
+                        
+            key = Console.ReadKey(true);  // Read the key input to allow navigation and selection
 
             switch (key.Key)
             {
