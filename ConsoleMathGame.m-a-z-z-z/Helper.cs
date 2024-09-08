@@ -1,10 +1,4 @@
 ﻿using ConsoleMathGame.m_a_z_z_z.Model;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.AccessControl;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ConsoleMathGame.m_a_z_z_z
 {
@@ -20,7 +14,7 @@ namespace ConsoleMathGame.m_a_z_z_z
 			return userAnswer;
 		}
 
-		internal static void SaveGame(Game game)
+		internal static void AddScoreToLeaderboard(Game game)
 		{
 			DateTime now = DateTime.Now;
 			game.Date = now;
