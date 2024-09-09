@@ -2,34 +2,36 @@
 using ConsoleMathGame.m_a_z_z_z.Model;
 
 // var declarations
+List<Game> gamesToPrint = new List<Game>();
 GameEngine gameEngine = new GameEngine();
-gameEngine.OnReturnRequested += () => StartProgram();   // I cant lie, chat GPT showed me the wizardry on this line
+gameEngine.OnReturnRequested += () => ProgramStart();   // I cant lie, chat GPT showed me the wizardry on this line
+Helper.OnReturnRequested += () => ShowHighscoresMenu();
 
-void StartProgram()
+ProgramStart();
+
+void ProgramStart() 
 {
-	var mainMenuSelection = Menu.MainMenu();	// MainMenu returns the string of the selected option, as does GameMenu below
-	var gameMenuSelection = "";
-
-	switch (mainMenuSelection)
+	switch (Menu.MainMenu()) 
 	{
 		case "Play Game":
-			gameMenuSelection = Menu.GameMenu();
+			ShowGameMenu();
 			break;
 		case "View Highscores":
-			Helper.ViewHighScores(Helper.games);
+			ShowHighscoresMenu();
 			break;
 		case "Quit":
 			Environment.Exit(0);
 			break;
-		default:
-			Environment.Exit(1);
-			break;
 	}
+	
+}
 
-	switch (gameMenuSelection)
+void ShowGameMenu() 
+{
+	switch (Menu.GameMenu())
 	{
 		case "Addition":
-			Game additionGame = new Game(GameMode.Addition);	// Game objects used to track game state
+			Game additionGame = new Game(GameMode.Addition);    // Game objects used to track game state
 			gameEngine.PlayGame('+', additionGame);
 			break;
 		case "Subtraction":
@@ -44,12 +46,42 @@ void StartProgram()
 			Game divisionGame = new Game(GameMode.Division);
 			gameEngine.PlayGame('/', divisionGame);
 			break;
+		case "Return to main menu":
+			ProgramStart();
+			break;
 		default:
+			Console.Error.WriteLine("Sheeeiiit, something went wrong. We got our best code monkeys workin on it.");
+			Environment.Exit(1);
 			break;
 	}
 }
 
-StartProgram();
-
-
-
+void ShowHighscoresMenu() 
+{
+	switch (Menu.HighscoresMenu())
+	{
+		case "Addition":
+			Console.Clear();
+			Helper.ViewHighScores(GameMode.Addition);
+			break;
+		case "Subtraction":
+			Console.Clear();
+			Helper.ViewHighScores(GameMode.Subtraction);
+			break;
+		case "Multiplication":
+			Console.Clear();
+			Helper.ViewHighScores(GameMode.Multiplication);
+			break;
+		case "Division":
+			Console.Clear();
+			Helper.ViewHighScores(GameMode.Division);
+			break;
+		case "Return to main menu":
+			ProgramStart();
+			break;
+		default:
+			Console.Error.WriteLine("Sheeeiiit, something went wrong. We got our best code monkeys workin on it.");
+			Environment.Exit(1);
+			break;
+	}
+}

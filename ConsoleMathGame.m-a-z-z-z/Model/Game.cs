@@ -9,14 +9,13 @@ internal class Game
 
 	internal Game(GameMode gameMode, int score, string date, string playerName)
 	{
-		GameMode = GameMode;
+		GameMode = gameMode;
 		Score = score;
 		Date = DateTime.Parse(date);
 		PlayerName = playerName;
 	}
 
 	internal Game(GameMode gameMode) {  GameMode = gameMode; }
-	internal Game() {}
 }
 
 internal enum GameMode

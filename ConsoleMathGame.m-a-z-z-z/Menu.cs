@@ -9,6 +9,7 @@ internal class Menu
 	private static bool isSelected;
 	private static string optionHighlight = "\u001b[32m";    // Green in UTF
 
+	// Logic for the menu. Menu options can be passed in as strings, making this reusable
 	internal static string MenuTemplate(string title, params string[] options)
 	{
 		highlightedOption = 1;
@@ -58,7 +59,12 @@ internal class Menu
 
 	internal static string GameMenu()
 	{
-		return Menu.MenuTemplate("Select a game mode", "Addition", "Subtraction", "Multiplication", "Division");
+		return Menu.MenuTemplate("Select a game mode", "Addition", "Subtraction", "Multiplication", "Division", "Return to main menu");
+	}
+	
+	internal static string HighscoresMenu() 
+	{
+		return Menu.MenuTemplate("Select game mode to view highscores in", "Addition", "Subtraction", "Multiplication", "Division", "Return to main menu");
 	}
 
 }

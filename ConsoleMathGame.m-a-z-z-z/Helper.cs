@@ -4,6 +4,8 @@ namespace ConsoleMathGame.m_a_z_z_z
 {
 	internal static class Helper
 	{
+		public static event Action OnReturnRequested;
+		
 		internal static string? ValidateNumber(string? userAnswer)
 		{
 			while (string.IsNullOrEmpty(userAnswer) || !Int32.TryParse(userAnswer, out int result)) {
@@ -31,14 +33,31 @@ namespace ConsoleMathGame.m_a_z_z_z
 			games.Add(game);
 		}
 
-		internal static void ViewHighScores(List<Game> gamesList)
+		internal static void ViewHighScores(GameMode gameMode)
 		{
 			int rank = 1;
+			var gamesToPrint = Helper.games.Where(x => x.Score > 0 && x.GameMode == gameMode)
+			.OrderByDescending(x => x.Score)
+			.ThenBy(x => x.Date);
+			gamesToPrint.ToList();
+
+			Console.WriteLine("--------------------------------------\n" + 
+				$"\t{gameMode} Highscores\n" + 
+				"--------------------------------------");
 			Console.WriteLine("RANK --- NAME --- SCORE --- DATE SET");
-			foreach (var game in gamesList)
+			foreach (var game in gamesToPrint)
 			{
-				Console.WriteLine($"{rank} --- {game.PlayerName} --- {game.Score} --- {game.Date:dd-MM-yy}");
+				Console.WriteLine($"   {rank} --- {game.PlayerName} --- {game.Score} --- {game.Date:dd-MM-yy}");
 				rank++;
+			}
+			Console.WriteLine("--------------------------------------");
+			
+			Console.WriteLine("\tPress any key to continue");
+			var keyInput = Console.ReadKey();
+			if (keyInput != null) 
+			{
+				Console.Clear();
+				OnReturnRequested?.Invoke();
 			}
 		}
 
