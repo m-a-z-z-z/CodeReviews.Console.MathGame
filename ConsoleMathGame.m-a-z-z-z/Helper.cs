@@ -20,26 +20,37 @@ namespace ConsoleMathGame.m_a_z_z_z
 		{
 			DateTime now = DateTime.Now;
 			game.Date = now;
-						
-			Console.WriteLine("Enter name: ");
-			game.PlayerName = Console.ReadLine();
+			// Filter for games only in this gamemode
+			var gamesToCompare = Helper.games.Where(x => x.Score > 0 && x.GameMode == game.GameMode)
+			.OrderByDescending(x => x.Score)
+			.ThenBy(x => x.Date)
+			.Take(10)
+			.ToList();
 			
-			while (string.IsNullOrEmpty(game.PlayerName) || string.IsNullOrWhiteSpace(game.PlayerName)) 
+			// If it beats the lowest score (out of top 10), add score to leaderboard
+			if (game.Score > gamesToCompare.Last().Score) 
 			{
-				Console.Write("Enter a name, damn it!: ");
-				Console.ReadLine();
+				Console.WriteLine("Enter name (4 char max): ");	// 4 char max so the leaderboard looks neat, and to make it look retro like old arcade games
+				game.PlayerName = Console.ReadLine();
+				
+				while (string.IsNullOrEmpty(game.PlayerName) || string.IsNullOrWhiteSpace(game.PlayerName)) 
+				{
+					Console.Write("Enter a name, damn it!: ");
+					Console.ReadLine();
+				}	
+				games.Add(game);
 			}
-			
-			games.Add(game);
 		}
 
 		internal static void ViewHighScores(GameMode gameMode)
 		{
 			int rank = 1;
+			// Filter for games only in this gamemode
 			var gamesToPrint = Helper.games.Where(x => x.Score > 0 && x.GameMode == gameMode)
 			.OrderByDescending(x => x.Score)
-			.ThenBy(x => x.Date);
-			gamesToPrint.ToList();
+			.ThenBy(x => x.Date)
+			.Take(10)
+			.ToList();
 
 			Console.WriteLine("--------------------------------------\n" + 
 				$"\t{gameMode} Highscores\n" + 
@@ -65,17 +76,17 @@ namespace ConsoleMathGame.m_a_z_z_z
 		{
 			// Pre populating the list with values so theres something to see when you view highscores
 			// K. Phillips has certified CTE
-			new Game(GameMode.Subtraction, 29, "12-06-2024", "S O\'Malley"),
-			new Game(GameMode.Subtraction, 28, "11-06-2024", "M. Dvalishvili"),
-			new Game(GameMode.Multiplication, 28, "10-06-2024", "C. Sandhagen"),
-			new Game(GameMode.Multiplication, 20, "10-06-2024", "M. Vera"),
-			new Game(GameMode.Addition, 14, "09-06-2024", "H. Cejudo"),
-			new Game(GameMode.Addition, 14, "09-06-2024", "D. Figueiredo"),
-			new Game(GameMode.Addition, 13, "08-06-2024", "S. Yadong"),
-			new Game(GameMode.Division, 12, "08-06-2024", "J. Aldo"),
-			new Game(GameMode.Division, 10, "07-06-2024", "R. Font"),
+			new Game(GameMode.Subtraction, 6, "12-06-2024", "S O\'Malley"),
+			new Game(GameMode.Subtraction, 6, "11-06-2024", "M. Dvalishvili"),
+			new Game(GameMode.Multiplication, 4, "10-06-2024", "C. Sandhagen"),
+			new Game(GameMode.Multiplication, 3, "10-06-2024", "M. Vera"),
+			new Game(GameMode.Addition, 10, "09-06-2024", "H. Cejudo"),
+			new Game(GameMode.Addition, 9, "09-06-2024", "D. Figueiredo"),
+			new Game(GameMode.Addition, 3, "08-06-2024", "S. Yadong"),///////////////
+			new Game(GameMode.Division, 9, "08-06-2024", "J. Aldo"),
+			new Game(GameMode.Division, 7, "07-06-2024", "R. Font"),
 			new Game(GameMode.Division, 5, "06-06-2024", "U. Nurmagonedov"),
-			new Game(GameMode.Addition, 0, "05-06-2024", "K. Phillips")
+			// new Game(GameMode.Addition, 0, "05-06-2024", "K. Phillips")
 		};
 	}
 }

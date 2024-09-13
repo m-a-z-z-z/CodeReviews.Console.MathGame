@@ -3,10 +3,9 @@
 namespace ConsoleMathGame.m_a_z_z_z;
 internal class GameEngine
 {	
-	public event Action OnReturnRequested;
-
 	internal void PlayGame(char mathOperator, Game game)    // Game is passed in method to keep track of game state as the PlayGame method calls on itself if user chooses to continue playing
 	{
+		// Var declartion
 		Console.CursorVisible = true;   // make console cursor visible again now that we're not in menu and taking input
 		Random random = new Random();
 		string userAnswer;
@@ -43,33 +42,37 @@ internal class GameEngine
 		// ensure number was entered
 		userAnswer = Helper.ValidateNumber(userAnswer);
 
-		// Prompt question again if users answer is incorrect
-		while (int.Parse(userAnswer) != correctAnswer)
+		// Case for incorrect answer
+		if (int.Parse(userAnswer) != correctAnswer)
 		{
-			Console.WriteLine("Wrong Answer. Try again.\n");
-			Console.Write($"{firstNum} {mathOperator} {secondNum} = ? ");
-			userAnswer = Console.ReadLine();
-			userAnswer = Helper.ValidateNumber(userAnswer);
-		}        
-		
-		game.Score++;
-		Console.WriteLine($"\nCorrect!\t Score: {game.Score}");
-
-		// Prompt user to continue or return to menu
-		Console.WriteLine("Press any key to continue.\nR - Return to main menu.");
-		var continueOrReturnInput = Console.ReadLine();
-
-		if (continueOrReturnInput.Trim().ToUpper() == "R")
-		{
-			Helper.AddScoreToLeaderboard(game);
-			Console.Clear();
-			// Go back to Program.cs and trigger StartProgram()
-			OnReturnRequested?.Invoke();    // I prefer this to calling on the menu method in here again as it keeps the flow of the program to Main()/top level statement
-		} else
-		{
-			Console.Clear();
-			PlayGame(mathOperator, game);   // game is passed in and game state is preserved, keeping track of score and game mode selected
+			Console.WriteLine($"Incorrect. Final score: {game.Score}");
+			Console.WriteLine("Continue? [y/n]");
+			var reply = Console.ReadLine().Trim().ToLower();
+			
+			if (reply == "n" || reply == "no") 
+			{
+				Helper.AddScoreToLeaderboard(game);	
+				Console.Clear();
+				Helper.ViewHighScores(game.GameMode);
+			}
+			game.Score = 0;	// reset if user presses key besides 'y' or 'yes'
 		}
+		else if (int.Parse(userAnswer) == correctAnswer)	// Case for correct answer 
+		{
+			game.Score++;
+			Console.WriteLine($"\nCorrect!\t Score: {game.Score}");
+			Console.WriteLine("Press any key to continue.\n" + "Q to return to menu.");
+			var reply = Console.ReadLine().Trim().ToLower();
+			if (reply == "q" || reply == "quit") 
+			{
+				Helper.AddScoreToLeaderboard(game);
+				Console.Clear();
+				Helper.ViewHighScores(game.GameMode);
+			}
+		}		
+		
+		Console.Clear();
+		PlayGame(mathOperator, game);   // game is passed in and game state is preserved, keeping track of score and game mode selected
 	}
 
 }
