@@ -6,6 +6,18 @@ namespace ConsoleMathGame.m_a_z_z_z
 	{
 		public static event Action OnReturnRequested;
 		
+		internal static string? ValidateUsername(string? username) 
+		{			
+			while (string.IsNullOrEmpty(username) || string.IsNullOrWhiteSpace(username)) 
+			{
+				Console.Write("Enter a name, damn it!: ");
+				username = Console.ReadLine();
+				if (username.Length > 4) { username = username.Substring(0,4); }
+			}	
+			username.Trim();
+			return username;
+		}
+		
 		internal static string? ValidateNumber(string? userAnswer)
 		{
 			while (string.IsNullOrEmpty(userAnswer) || !Int32.TryParse(userAnswer, out int result)) {
@@ -31,13 +43,9 @@ namespace ConsoleMathGame.m_a_z_z_z
 			if (game.Score > gamesToCompare.Last().Score) 
 			{
 				Console.WriteLine("Enter name (4 char max): ");	// 4 char max so the leaderboard looks neat, and to make it look retro like old arcade games
-				game.PlayerName = Console.ReadLine();
-				
-				while (string.IsNullOrEmpty(game.PlayerName) || string.IsNullOrWhiteSpace(game.PlayerName)) 
-				{
-					Console.Write("Enter a name, damn it!: ");
-					Console.ReadLine();
-				}	
+				var username = Console.ReadLine();
+				ValidateUsername(username);
+				game.PlayerName = username;
 				games.Add(game);
 			}
 		}
