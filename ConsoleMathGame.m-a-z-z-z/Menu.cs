@@ -6,14 +6,15 @@ namespace ConsoleMathGame.m_a_z_z_z;
 // Arrow Keys are used to navigate options and Enter to select
 internal class Menu
 {
-	private static ConsoleKeyInfo key;
-	private static int highlightedOption;
-	private static bool isSelected;
-	private static string optionHighlight = "\u001b[32m";    // Green in UTF
-
+	public static event Action OnReturnRequested;
+	
 	// Logic for the menu. Menu options can be passed in as strings, making this reusable
 	internal static string MenuTemplate(string title, params string[] options)
 	{
+		ConsoleKeyInfo key;
+		int highlightedOption;
+		bool isSelected;
+		string optionHighlight = "\u001b[32m";    // Green in UTF
 		highlightedOption = 1;
 		isSelected = false;
 		Console.CursorVisible = false;
@@ -58,15 +59,43 @@ internal class Menu
 	{
 		return Menu.MenuTemplate("Welcome to Math Game", "Play Game", "View Highscores", "Quit");
 	}
-
+	
 	internal static string GameMenu()
 	{
 		return Menu.MenuTemplate("Select a game mode", "Addition", "Subtraction", "Multiplication", "Division", "Return to main menu");
 	}
 	
-	internal static string HighscoresMenu() 
+	internal static void HighscoresMenu() 
 	{
-		return Menu.MenuTemplate("Select game mode to view highscores in", "Addition", "Subtraction", "Multiplication", "Division", "Return to main menu");
+		var gameMode = Menu.MenuTemplate("Select game mode to view highscores in", "Addition", "Subtraction", "Multiplication", "Division", "Return to main menu");
+
+		switch (gameMode) 
+		{
+			case "Addition":
+				Console.Clear();
+				Helper.ViewHighScores(GameMode.Addition);
+				break;
+			case "Subtraction":
+				Console.Clear();
+				Helper.ViewHighScores(GameMode.Subtraction);
+				break;
+			case "Multiplication":
+				Console.Clear();
+				Helper.ViewHighScores(GameMode.Multiplication);
+				break;
+			case "Division":
+				Console.Clear();
+				Helper.ViewHighScores(GameMode.Division);
+				break;
+			case "Return to main menu":
+				Console.Clear();
+				OnReturnRequested?.Invoke();	// invoke Menu.OnReturnRequested += () => ProgramStart() in Main
+				break;
+			default:
+				Console.Error.WriteLine("Sheeeiiit, something went wrong. We got our best code monkeys workin on it.");
+				Environment.Exit(1);
+				break;				
+		}
 	}
 	
 	internal static Difficulty DifficultyMenu() 
@@ -85,5 +114,4 @@ internal class Menu
 				return Difficulty.Easy;				
 		}
 	}
-
 }

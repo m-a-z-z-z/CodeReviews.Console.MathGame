@@ -76,7 +76,7 @@ namespace ConsoleMathGame.m_a_z_z_z
 			if (keyInput != null) 
 			{
 				Console.Clear();
-				OnReturnRequested?.Invoke();
+				OnReturnRequested?.Invoke();	// invoke Helper.OnReturnRequested += () => Menu.HighscoresMenu(); in Main
 			}
 		}
 

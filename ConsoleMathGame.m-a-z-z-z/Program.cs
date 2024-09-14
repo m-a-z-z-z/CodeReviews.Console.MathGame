@@ -15,7 +15,8 @@ using ConsoleMathGame.m_a_z_z_z.Model;
 // var declarations
 List<Game> gamesToPrint = new List<Game>();
 GameEngine gameEngine = new GameEngine();
-Helper.OnReturnRequested += () => ShowHighscoresMenu();	// Subscribe ShowHighscoresMenu to OnReturnRequested event
+Helper.OnReturnRequested += () => Menu.HighscoresMenu();	// Subscribe ShowHighscoresMenu to OnReturnRequested event
+Menu.OnReturnRequested += () => ProgramStart();
 
 ProgramStart();
 
@@ -27,7 +28,8 @@ void ProgramStart()
 			ShowGameMenu();
 			break;
 		case "View Highscores":
-			ShowHighscoresMenu();
+			// ShowHighscoresMenu();
+			Menu.HighscoresMenu();
 			break;
 		case "Quit":
 			Environment.Exit(0);
@@ -35,6 +37,7 @@ void ProgramStart()
 	}
 	
 }
+
 
 void ShowGameMenu() 
 {
@@ -60,36 +63,6 @@ void ShowGameMenu()
 			difficulty = Menu.DifficultyMenu();
 			Game divisionGame = new Game(GameMode.Division, difficulty);
 			gameEngine.PlayGame(divisionGame);
-			break;
-		case "Return to main menu":
-			ProgramStart();
-			break;
-		default:
-			Console.Error.WriteLine("Sheeeiiit, something went wrong. We got our best code monkeys workin on it.");
-			Environment.Exit(1);
-			break;
-	}
-}
-
-void ShowHighscoresMenu() 
-{
-	switch (Menu.HighscoresMenu())
-	{
-		case "Addition":
-			Console.Clear();
-			Helper.ViewHighScores(GameMode.Addition);
-			break;
-		case "Subtraction":
-			Console.Clear();
-			Helper.ViewHighScores(GameMode.Subtraction);
-			break;
-		case "Multiplication":
-			Console.Clear();
-			Helper.ViewHighScores(GameMode.Multiplication);
-			break;
-		case "Division":
-			Console.Clear();
-			Helper.ViewHighScores(GameMode.Division);
 			break;
 		case "Return to main menu":
 			ProgramStart();
