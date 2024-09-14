@@ -3,59 +3,69 @@
 namespace ConsoleMathGame.m_a_z_z_z;
 internal class GameEngine
 {	
-	internal int[] NumGenerator(int score) 
+	internal int[] NumGenerator(Difficulty difficulty) 
 	{
 		Random random = new Random();
+		int firstNum;
+		int secondNum;
 		
-		// increase difficulty by score
-		if (score < 2 ) 
+		switch (difficulty) 
 		{
-			var firstNum = random.Next(1, 12);
-			var secondNum = random.Next(1, 12);
-			return new int[] { firstNum, secondNum };
-		} 
-		else if (score >= 2 && score < 5) 
-		{
-			var firstNum = random.Next(3, 12);
-			var secondNum = random.Next(3, 12);
-			return new int[] { firstNum, secondNum };
-			
-		}
-		else
-		{
-			var firstNum = random.Next(2, 99);
-			var secondNum = random.Next(2,99);
-			return new int[] { firstNum, secondNum };
+			case Difficulty.Easy:
+				firstNum = random.Next(1, 12);
+				secondNum = random.Next(1, 12);
+				return new int[] { firstNum, secondNum };
+			case Difficulty.Medium:
+				firstNum = random.Next(3, 24);
+				secondNum = random.Next(3, 24);
+				return new int[] { firstNum, secondNum };
+			case Difficulty.Hard:
+				firstNum = random.Next(2, 99);
+				secondNum = random.Next(2,99);
+				return new int[] { firstNum, secondNum };
+			default:
+				firstNum = random.Next(3, 24);
+				secondNum = random.Next(3, 24);
+				return new int[] { firstNum, secondNum };				
 		}
 	}
 	
-	internal void PlayGame(char mathOperator, Game game)    // Game is passed in method to keep track of game state as the PlayGame method calls on itself if user chooses to continue playing
+	internal void PlayGame(Game game)    // Game is passed in method to keep track of game state as the PlayGame method calls on itself if user chooses to continue playing
 	{
 		// Var declartion
 		Console.CursorVisible = true;   // make console cursor visible again now that we're not in menu and taking input
 		string userAnswer;
-		int correctAnswer = 0;
-		int[] nums = NumGenerator(game.Score);
+		int correctAnswer;
+		char mathOperator;
+		int[] nums = NumGenerator(game.Difficulty);	// Generate numbers in a certain range based on difficulty
 
 		// Calculate answer
-		switch (mathOperator)
+		switch (game.GameMode)
 		{
-			case '+':
+			case GameMode.Addition:
 				correctAnswer = nums[0] + nums[1];
+				mathOperator = '+';
 				break;
-			case '-':
+			case GameMode.Subtraction:
 				correctAnswer = nums[0] - nums[1];
+				mathOperator = '-';
 				break;
-			case '*':
+			case GameMode.Multiplication:
 				correctAnswer = nums[0] * nums[1];
+				mathOperator = '*';
 				break;
-			case '/':
+			case GameMode.Division:
 				while (nums[0] % nums[1] != 0)
 				{
-					nums = NumGenerator(game.Score);
+					nums = NumGenerator(game.Difficulty);
 				}
 				correctAnswer = nums[0] / nums[1];
+				mathOperator = '/';
 				break;
+			default:
+				correctAnswer = nums[0] + nums[1];
+				mathOperator = '+';
+				break;				
 		}
 
 		// Take user answer
@@ -79,8 +89,8 @@ internal class GameEngine
 				Helper.ViewHighScores(game.GameMode);
 			}
 			game.Score = 0;	// reset if user presses key besides 'y' or 'yes'
-		}
-		else if (int.Parse(userAnswer) == correctAnswer)	// Case for correct answer 
+		}	// Case for correct answer 
+		else if (int.Parse(userAnswer) == correctAnswer)
 		{
 			game.Score++;
 			Console.WriteLine($"\nCorrect!\t Score: {game.Score}");
@@ -95,7 +105,7 @@ internal class GameEngine
 		}		
 		
 		Console.Clear();
-		PlayGame(mathOperator, game);   // game is passed in and game state is preserved, keeping track of score and game mode selected
+		PlayGame(game);   // game is passed in and game state is preserved, keeping track of score and game mode selected
 	}
 
 }

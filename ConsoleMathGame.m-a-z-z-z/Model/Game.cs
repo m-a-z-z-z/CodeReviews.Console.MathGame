@@ -24,8 +24,13 @@ internal class Game
 		Date = DateTime.Parse(date);
 		PlayerName = playerName;
 	}
-
-	internal Game(GameMode gameMode) {  GameMode = gameMode; }
+	
+	internal Game(GameMode gameMode, Difficulty difficulty) 
+	{  
+		GameMode = gameMode; 
+		Difficulty = difficulty;
+	}
+	
 }
 
 internal enum GameMode

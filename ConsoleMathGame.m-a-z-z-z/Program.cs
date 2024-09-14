@@ -6,7 +6,7 @@ using ConsoleMathGame.m_a_z_z_z.Model;
 	- Check score against top 10 scores in category when a user gets an answer wrong, and add it to leaderboard if it beats any [x]
 	- Random mode will present player with questions from all operations []
 	- Difficulty setting
-		- (Easy) no timer, integers from 1 - 12 only []
+		- (Easy) no timer, integers from 1 - 12 only [x]
 		- (Medium) Answer questions with timer, ints 1- 12 []
 		- (Hard) Timer, and ints 1 - 99 []
 		- (Very hard) Same as hard, but random mode []
@@ -38,23 +38,28 @@ void ProgramStart()
 
 void ShowGameMenu() 
 {
+	Difficulty difficulty = new Difficulty();
 	switch (Menu.GameMenu())
 	{
 		case "Addition":
-			Game additionGame = new Game(GameMode.Addition);    // Game objects used to track game state
-			gameEngine.PlayGame('+', additionGame);
+			difficulty = Menu.DifficultyMenu();
+			Game additionGame = new Game(GameMode.Addition, difficulty);    // Game objects used to track game state
+			gameEngine.PlayGame(additionGame);
 			break;
 		case "Subtraction":
-			Game subtractionGame = new Game(GameMode.Subtraction);
-			gameEngine.PlayGame('-', subtractionGame);
+			difficulty = Menu.DifficultyMenu();
+			Game subtractionGame = new Game(GameMode.Subtraction, difficulty);
+			gameEngine.PlayGame(subtractionGame);
 			break;
 		case "Multiplication":
-			Game multiplicationGame = new Game(GameMode.Multiplication);
-			gameEngine.PlayGame('*', multiplicationGame);
+			difficulty = Menu.DifficultyMenu();
+			Game multiplicationGame = new Game(GameMode.Multiplication, difficulty);
+			gameEngine.PlayGame(multiplicationGame);
 			break;
 		case "Division":
-			Game divisionGame = new Game(GameMode.Division);
-			gameEngine.PlayGame('/', divisionGame);
+			difficulty = Menu.DifficultyMenu();
+			Game divisionGame = new Game(GameMode.Division, difficulty);
+			gameEngine.PlayGame(divisionGame);
 			break;
 		case "Return to main menu":
 			ProgramStart();

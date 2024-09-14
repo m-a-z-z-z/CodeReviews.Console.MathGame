@@ -1,4 +1,6 @@
-﻿namespace ConsoleMathGame.m_a_z_z_z;
+﻿using ConsoleMathGame.m_a_z_z_z.Model;
+
+namespace ConsoleMathGame.m_a_z_z_z;
 
 // This is menu is overkill but it's cool lol
 // Arrow Keys are used to navigate options and Enter to select
@@ -65,6 +67,23 @@ internal class Menu
 	internal static string HighscoresMenu() 
 	{
 		return Menu.MenuTemplate("Select game mode to view highscores in", "Addition", "Subtraction", "Multiplication", "Division", "Return to main menu");
+	}
+	
+	internal static Difficulty DifficultyMenu() 
+	{
+		var difficulty = Menu.MenuTemplate("Select Difficulty", "Easy", "Medium", "Hard");
+		
+		switch (difficulty) 
+		{
+			case "Easy":
+				return Difficulty.Easy;
+			case "Medium":
+				return Difficulty.Medium;
+			case "Hard":
+				return Difficulty.Hard;
+			default:
+				return Difficulty.Easy;				
+		}
 	}
 
 }
