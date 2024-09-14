@@ -79,12 +79,12 @@ internal class GameEngine
 		if (int.Parse(userAnswer) != correctAnswer)
 		{
 			Console.WriteLine($"Incorrect. Final score: {game.Score}");
+			Helper.AddScoreToLeaderboard(game);	
 			Console.WriteLine("Continue? [y/n]");
 			var reply = Console.ReadLine().Trim().ToLower();
 			
 			if (reply == "n" || reply == "no") 
 			{
-				Helper.AddScoreToLeaderboard(game);	
 				Console.Clear();
 				Helper.ViewHighScores(game.GameMode);
 			}
