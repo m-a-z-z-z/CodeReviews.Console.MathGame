@@ -3,40 +3,63 @@
 namespace ConsoleMathGame.m_a_z_z_z;
 internal class GameEngine
 {	
+	internal int[] NumGenerator(int score) 
+	{
+		Random random = new Random();
+		
+		// increase difficulty by score
+		if (score < 2 ) 
+		{
+			var firstNum = random.Next(1, 12);
+			var secondNum = random.Next(1, 12);
+			return new int[] { firstNum, secondNum };
+		} 
+		else if (score >= 2 && score < 5) 
+		{
+			var firstNum = random.Next(3, 12);
+			var secondNum = random.Next(3, 12);
+			return new int[] { firstNum, secondNum };
+			
+		}
+		else
+		{
+			var firstNum = random.Next(2, 99);
+			var secondNum = random.Next(2,99);
+			return new int[] { firstNum, secondNum };
+		}
+	}
+	
 	internal void PlayGame(char mathOperator, Game game)    // Game is passed in method to keep track of game state as the PlayGame method calls on itself if user chooses to continue playing
 	{
 		// Var declartion
 		Console.CursorVisible = true;   // make console cursor visible again now that we're not in menu and taking input
-		Random random = new Random();
 		string userAnswer;
 		int correctAnswer = 0;
-		int firstNum = random.Next(1, 99);
-		int secondNum = random.Next(1, 99);
+		int[] nums = NumGenerator(game.Score);
 
 		// Calculate answer
 		switch (mathOperator)
 		{
 			case '+':
-				correctAnswer = firstNum + secondNum;
+				correctAnswer = nums[0] + nums[1];
 				break;
 			case '-':
-				correctAnswer = firstNum - secondNum;
+				correctAnswer = nums[0] - nums[1];
 				break;
 			case '*':
-				correctAnswer = firstNum * secondNum;
+				correctAnswer = nums[0] * nums[1];
 				break;
 			case '/':
-				while (firstNum % secondNum != 0)
+				while (nums[0] % nums[1] != 0)
 				{
-					firstNum = random.Next(1, 99);
-					secondNum = random.Next(1, 99);
+					nums = NumGenerator(game.Score);
 				}
-				correctAnswer = firstNum / secondNum;
+				correctAnswer = nums[0] / nums[1];
 				break;
 		}
 
 		// Take user answer
-		Console.Write($"{firstNum} {mathOperator} {secondNum} = ? ");
+		Console.Write($"{nums[0]} {mathOperator} {nums[1]} = ? ");
 		userAnswer = Console.ReadLine();
 
 		// ensure number was entered

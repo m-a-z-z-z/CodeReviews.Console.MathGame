@@ -15,7 +15,7 @@ using ConsoleMathGame.m_a_z_z_z.Model;
 // var declarations
 List<Game> gamesToPrint = new List<Game>();
 GameEngine gameEngine = new GameEngine();
-Helper.OnReturnRequested += () => ShowHighscoresMenu();
+Helper.OnReturnRequested += () => ShowHighscoresMenu();	// Subscribe ShowHighscoresMenu to OnReturnRequested event
 
 ProgramStart();
 
