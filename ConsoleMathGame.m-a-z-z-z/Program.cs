@@ -13,8 +13,6 @@ using ConsoleMathGame.m_a_z_z_z.Model;
  */
 
 // var declarations
-List<Game> gamesToPrint = new List<Game>();
-GameEngine gameEngine = new GameEngine();
 Helper.OnReturnRequested += () => Menu.HighscoresMenu();	// Subscribe ShowHighscoresMenu to OnReturnRequested event
 Menu.OnReturnRequested += () => ProgramStart();
 
@@ -25,51 +23,13 @@ void ProgramStart()
 	switch (Menu.MainMenu()) 
 	{
 		case "Play Game":
-			ShowGameMenu();
+			Menu.GameMenu();
 			break;
 		case "View Highscores":
-			// ShowHighscoresMenu();
 			Menu.HighscoresMenu();
 			break;
 		case "Quit":
 			Environment.Exit(0);
 			break;
-	}
-	
-}
-
-
-void ShowGameMenu() 
-{
-	Difficulty difficulty = new Difficulty();
-	switch (Menu.GameMenu())
-	{
-		case "Addition":
-			difficulty = Menu.DifficultyMenu();
-			Game additionGame = new Game(GameMode.Addition, difficulty);    // Game objects used to track game state
-			gameEngine.PlayGame(additionGame);
-			break;
-		case "Subtraction":
-			difficulty = Menu.DifficultyMenu();
-			Game subtractionGame = new Game(GameMode.Subtraction, difficulty);
-			gameEngine.PlayGame(subtractionGame);
-			break;
-		case "Multiplication":
-			difficulty = Menu.DifficultyMenu();
-			Game multiplicationGame = new Game(GameMode.Multiplication, difficulty);
-			gameEngine.PlayGame(multiplicationGame);
-			break;
-		case "Division":
-			difficulty = Menu.DifficultyMenu();
-			Game divisionGame = new Game(GameMode.Division, difficulty);
-			gameEngine.PlayGame(divisionGame);
-			break;
-		case "Return to main menu":
-			ProgramStart();
-			break;
-		default:
-			Console.Error.WriteLine("Sheeeiiit, something went wrong. We got our best code monkeys workin on it.");
-			Environment.Exit(1);
-			break;
-	}
+	}	
 }

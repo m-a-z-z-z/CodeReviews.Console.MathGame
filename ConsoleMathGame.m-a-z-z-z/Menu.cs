@@ -60,9 +60,42 @@ internal class Menu
 		return Menu.MenuTemplate("Welcome to Math Game", "Play Game", "View Highscores", "Quit");
 	}
 	
-	internal static string GameMenu()
+	internal static void GameMenu()
 	{
-		return Menu.MenuTemplate("Select a game mode", "Addition", "Subtraction", "Multiplication", "Division", "Return to main menu");
+		GameEngine gameEngine = new GameEngine();
+		Difficulty difficulty = new Difficulty();
+		var gameMode = Menu.MenuTemplate("Select a game mode", "Addition", "Subtraction", "Multiplication", "Division", "Return to main menu");
+		
+		switch (gameMode)
+		{
+			case "Addition":
+				difficulty = Menu.DifficultyMenu();
+				Game additionGame = new Game(GameMode.Addition, difficulty);    // Game objects used to track game state
+				gameEngine.PlayGame(additionGame);
+				break;
+			case "Subtraction":
+				difficulty = Menu.DifficultyMenu();
+				Game subtractionGame = new Game(GameMode.Subtraction, difficulty);
+				gameEngine.PlayGame(subtractionGame);
+				break;
+			case "Multiplication":
+				difficulty = Menu.DifficultyMenu();
+				Game multiplicationGame = new Game(GameMode.Multiplication, difficulty);
+				gameEngine.PlayGame(multiplicationGame);
+				break;
+			case "Division":
+				difficulty = Menu.DifficultyMenu();
+				Game divisionGame = new Game(GameMode.Division, difficulty);
+				gameEngine.PlayGame(divisionGame);
+				break;
+			case "Return to main menu":
+				OnReturnRequested?.Invoke();	// invoke Menu.OnReturnRequested += () => ProgramStart() in Main
+				break;
+			default:
+				Console.Error.WriteLine("Sheeeiiit, something went wrong. We got our best code monkeys workin on it.");
+				Environment.Exit(1);
+				break;
+		}
 	}
 	
 	internal static void HighscoresMenu() 
