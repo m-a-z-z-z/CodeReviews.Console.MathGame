@@ -6,6 +6,7 @@ namespace ConsoleMathGame.m_a_z_z_z;
 // Arrow Keys are used to navigate options and Enter to select
 internal class Menu
 {
+	
 	public static event Action OnReturnRequested;
 	
 	// Logic for the menu. Menu options can be passed in as strings, making this reusable
@@ -54,10 +55,23 @@ internal class Menu
 
 		return options[highlightedOption - 1];  // Return the selected option
 	}
-
-	internal static string MainMenu()
+	
+	internal static void MainMenu() 
 	{
-		return Menu.MenuTemplate("Welcome to Math Game", "Play Game", "View Highscores", "Quit");
+		var selection = Menu.MenuTemplate("Welcome to Math Game", "Play Game", "View Highscores", "Quit");
+		
+		switch (selection) 
+		{
+			case "Play Game":
+				GameMenu();
+				break;
+			case "View Highscores":
+				HighscoresMenu();
+				break;
+			case "Quit":
+				Environment.Exit(0);
+				break;
+		}	
 	}
 	
 	internal static void GameMenu()
@@ -122,7 +136,7 @@ internal class Menu
 				break;
 			case "Return to main menu":
 				Console.Clear();
-				OnReturnRequested?.Invoke();	// invoke Menu.OnReturnRequested += () => ProgramStart() in Main
+				MainMenu();
 				break;
 			default:
 				Console.Error.WriteLine("Sheeeiiit, something went wrong. We got our best code monkeys workin on it.");
