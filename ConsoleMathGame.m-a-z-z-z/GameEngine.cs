@@ -1,4 +1,5 @@
 ﻿using ConsoleMathGame.m_a_z_z_z.Model;
+using System.Runtime.CompilerServices;
 
 namespace ConsoleMathGame.m_a_z_z_z;
 internal class GameEngine
@@ -29,8 +30,10 @@ internal class GameEngine
 				return new int[] { firstNum, secondNum };				
 		}
 	}
-	
-	internal void PlayGame(Game game)    // Game is passed in method to keep track of game state as the PlayGame method calls on itself if user chooses to continue playing
+
+    // The parameters look kinda dumb as Game contains the GameMode enum itself, but this was the most elegant solution I could figure out to get the Random game mode working in as little lines as possible
+	// Game is passed into method to keep track of game state as the PlayGame method calls on itself if user chooses to continue playing, and to keep the game mode on random if it was selected.
+    internal void PlayGame(GameMode gameMode, Game game)
 	{
 		// Var declartion
 		Console.CursorVisible = true;   // make console cursor visible again now that we're not in menu and taking input
@@ -40,7 +43,7 @@ internal class GameEngine
 		int[] nums = NumGenerator(game.Difficulty);	// Generate numbers in a certain range based on difficulty
 
 		// Calculate answer
-		switch (game.GameMode)
+		switch (gameMode)
 		{
 			case GameMode.Addition:
 				correctAnswer = nums[0] + nums[1];
@@ -61,6 +64,13 @@ internal class GameEngine
 				}
 				correctAnswer = nums[0] / nums[1];
 				mathOperator = '/';
+				break;
+			case GameMode.Random:
+				GameMode randomGameMode = Helper.GetARandomGameMode();	// Returns a GameMode enum such as Addition, Subtraction etc...
+				PlayGame(randomGameMode, game);     // game should maintain "game.GameMode = Random" so that the case GameMode.Random is called
+				// need to assign values to these to suppress errors
+				mathOperator = ' ';
+				correctAnswer = 0;
 				break;
 			default:
 				correctAnswer = nums[0] + nums[1];
@@ -105,7 +115,13 @@ internal class GameEngine
 		}		
 		
 		Console.Clear();
-		PlayGame(game);   // game is passed in and game state is preserved, keeping track of score and game mode selected
-	}
+		if (game.GameMode == GameMode.Random)
+		{
+			PlayGame(GameMode.Random, game);
+		}else
+		{
+            PlayGame(gameMode, game);   // game is passed in and game state is preserved, keeping track of score and game mode selected
+        }
+    }
 
 }

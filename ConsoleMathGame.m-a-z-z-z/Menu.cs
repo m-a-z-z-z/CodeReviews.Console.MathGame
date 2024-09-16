@@ -78,29 +78,34 @@ internal class Menu
 	{
 		GameEngine gameEngine = new GameEngine();
 		Difficulty difficulty = new Difficulty();
-		var gameMode = Menu.MenuTemplate("Select a game mode", "Addition", "Subtraction", "Multiplication", "Division", "Return to main menu");
+		var gameMode = Menu.MenuTemplate("Select a game mode", "Addition", "Subtraction", "Multiplication", "Division", "Random Mode", "Return to main menu");
 		
 		switch (gameMode)
 		{
 			case "Addition":
 				difficulty = Menu.DifficultyMenu();
 				Game additionGame = new Game(GameMode.Addition, difficulty);    // Game objects used to track game state
-				gameEngine.PlayGame(additionGame);
+				gameEngine.PlayGame(additionGame.GameMode, additionGame);
 				break;
 			case "Subtraction":
 				difficulty = Menu.DifficultyMenu();
 				Game subtractionGame = new Game(GameMode.Subtraction, difficulty);
-				gameEngine.PlayGame(subtractionGame);
+				gameEngine.PlayGame(subtractionGame.GameMode, subtractionGame);
 				break;
 			case "Multiplication":
 				difficulty = Menu.DifficultyMenu();
 				Game multiplicationGame = new Game(GameMode.Multiplication, difficulty);
-				gameEngine.PlayGame(multiplicationGame);
+				gameEngine.PlayGame(multiplicationGame.GameMode, multiplicationGame);
 				break;
 			case "Division":
 				difficulty = Menu.DifficultyMenu();
 				Game divisionGame = new Game(GameMode.Division, difficulty);
-				gameEngine.PlayGame(divisionGame);
+				gameEngine.PlayGame(divisionGame.GameMode, divisionGame);
+				break;
+			case "Random Mode":
+				difficulty = Menu.DifficultyMenu();
+				Game randomGame = new Game(GameMode.Random, difficulty);
+				gameEngine.PlayGame(GameMode.Random, randomGame);
 				break;
 			case "Return to main menu":
 				OnReturnRequested?.Invoke();	// invoke Menu.OnReturnRequested += () => ProgramStart() in Main

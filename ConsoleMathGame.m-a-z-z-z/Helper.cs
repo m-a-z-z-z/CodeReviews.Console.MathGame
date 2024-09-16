@@ -5,6 +5,25 @@ namespace ConsoleMathGame.m_a_z_z_z
 	internal static class Helper
 	{
 		public static event Action OnReturnRequested;
+
+		internal static GameMode GetARandomGameMode()
+		{
+			Random random = new Random();
+
+			switch (random.Next(0, 4))
+			{
+				case 0:
+					return GameMode.Addition;
+				case 1:
+					return GameMode.Subtraction;
+				case 2:
+					return GameMode.Multiplication;
+				case 3:
+					return GameMode.Division;
+				default:
+					return GameMode.Addition;
+			}
+		}
 		
 		internal static string? ValidateUsername(string? username) 
 		{			
@@ -83,18 +102,16 @@ namespace ConsoleMathGame.m_a_z_z_z
 		internal static List<Game> games = new List<Game>()
 		{
 			// Pre populating the list with values so theres something to see when you view highscores
-			// K. Phillips has certified CTE
 			new Game(GameMode.Subtraction, 6, "12-06-2024", "Sean"),
 			new Game(GameMode.Subtraction, 6, "11-06-2024", "Vera"),
 			new Game(GameMode.Multiplication, 4, "10-06-2024", "Ya"),
 			new Game(GameMode.Multiplication, 3, "10-06-2024", "Boi"),
 			new Game(GameMode.Addition, 10, "09-06-2024", "Deez"),
 			new Game(GameMode.Addition, 9, "09-06-2024", "Nuds"),
-			new Game(GameMode.Addition, 3, "08-06-2024", "Dat"),///////////////
-			new Game(GameMode.Division, 9, "08-06-2024", "Boi"),
 			new Game(GameMode.Division, 7, "07-06-2024", "John"),
 			new Game(GameMode.Division, 5, "06-06-2024", "Smit"),
-			// new Game(GameMode.Addition, 0, "05-06-2024", "K. Phillips")
+            new Game(GameMode.Random, 7, "07-06-2024", "Peen"),
+            new Game(GameMode.Random, 5, "06-06-2024", "Lord")
 		};
 	}
 }
