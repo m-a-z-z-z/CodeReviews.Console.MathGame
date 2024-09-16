@@ -119,7 +119,7 @@ internal class Menu
 	
 	internal static void HighscoresMenu() 
 	{
-		var gameMode = Menu.MenuTemplate("Select game mode to view highscores in", "Addition", "Subtraction", "Multiplication", "Division", "Return to main menu");
+		var gameMode = Menu.MenuTemplate("Select game mode to view highscores in", "Addition", "Subtraction", "Multiplication", "Division", "Random Mode", "Return to main menu");
 
 		switch (gameMode) 
 		{
@@ -138,6 +138,10 @@ internal class Menu
 			case "Division":
 				Console.Clear();
 				Helper.ViewHighScores(GameMode.Division);
+				break;
+			case "Random Mode":
+				Console.Clear();
+				Helper.ViewHighScores(GameMode.Random);
 				break;
 			case "Return to main menu":
 				Console.Clear();
